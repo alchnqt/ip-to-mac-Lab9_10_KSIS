@@ -32,11 +32,18 @@ std::string exec(const char* cmd)
 		result.erase(i);
 	return remove_spaces(result);
 }
-int main(void)
+int main(int argc, char** argv)
 {
 	setlocale(LC_ALL, "rus");
+	if (argc > 3)
+	{
+		std::cout << "Invalid input\n";
+		return 0;
+	}
 	custom_arp arp;
-	arp.entry_point();
-	auto get_res = exec("arp -a | find /i \" cc-1a-fa-87-c1-12\"");
-	std::cout << get_res;
+	if(argv[1] == "/ip")
+		arp.entry_point(argv[2]);
+	if (argv[1] == "/mac") //cc-1a-fa-87-c1-12
+	std::cout << exec("arp -a | find /i ") + argv[2];
+	return 0;
 }

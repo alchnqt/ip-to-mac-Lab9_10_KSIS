@@ -39,7 +39,7 @@ public:
 			}
 		}
 	}
-	int entry_point() noexcept
+	int entry_point(const char* ip_address) noexcept
 	{
 		using std::cout;
 		using std::cin;
@@ -54,8 +54,6 @@ public:
 			cout << WSAGetLastError();
 			return -1;
 		}
-		cout << "¬ведите IP : ";
-		cin >> ip_address;
 		//преобразование IP адреса другим способом
 		//srcip.s_addr = inet_addr(ip_address);
 		inet_pton(AF_INET, ip_address, &(sa.sin_addr));
