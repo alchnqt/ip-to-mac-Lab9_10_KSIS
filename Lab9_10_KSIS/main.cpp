@@ -44,6 +44,12 @@ int main(int argc, char** argv)
 	if(!std::strcmp(argv[1], "/ip"))
 		arp.entry_point(argv[2]);
 	if (!std::strcmp(argv[1], "/mac")) //cc-1a-fa-87-c1-12
-		std::cout << exec("arp -a | find /i ") + argv[2];
+	{
+		std::string res = "arp -a | find /i ";
+		res += "\""; 
+		res += argv[2];
+		res += "\"";
+		std::cout << exec(res.c_str());
+	}
 	return 0;
 }
