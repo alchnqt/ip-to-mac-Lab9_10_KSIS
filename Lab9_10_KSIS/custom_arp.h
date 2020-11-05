@@ -46,7 +46,6 @@ public:
 		unsigned char mac[6];
 		struct in_addr srcip = { 0 };
 		struct sockaddr_in sa;
-		char ip_address[32];
 		WSADATA firstsock;
 		if (WSAStartup(MAKEWORD(2, 2), &firstsock) != 0)
 		{
