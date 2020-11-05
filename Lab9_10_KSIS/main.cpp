@@ -41,9 +41,9 @@ int main(int argc, char** argv)
 		return 0;
 	}
 	custom_arp arp;
-	if(argv[1] == "/ip")
+	if(!std::strcmp(argv[1], "/ip"))
 		arp.entry_point(argv[2]);
-	if (argv[1] == "/mac") //cc-1a-fa-87-c1-12
-	std::cout << exec("arp -a | find /i ") + argv[2];
+	if (!std::strcmp(argv[1], "/mac")) //cc-1a-fa-87-c1-12
+		std::cout << exec("arp -a | find /i ") + argv[2];
 	return 0;
 }
