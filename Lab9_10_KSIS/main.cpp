@@ -16,7 +16,7 @@ std::string remove_spaces(std::string& str)
 	str.erase(str.begin());
 	return str;
 }
-std::string exec(const char* cmd) 
+std::string exec(const char* cmd)
 {
 	std::array<char, 128> buffer;
 	std::string result;
@@ -35,21 +35,29 @@ std::string exec(const char* cmd)
 int main(int argc, char** argv)
 {
 	setlocale(LC_ALL, "rus");
-	if (argc > 3)
+	if (argc > 3 || argc ==  1)
 	{
 		std::cout << "Invalid input\n";
 		return 0;
 	}
 	custom_arp arp;
-	if(!std::strcmp(argv[1], "/ip"))
-		arp.entry_point(argv[2]);
-	if (!std::strcmp(argv[1], "/mac")) //cc-1a-fa-87-c1-12
+	try
 	{
-		std::string res = "arp -a | find /i ";
-		res += "\""; 
-		res += argv[2];
-		res += "\"";
-		std::cout << exec(res.c_str());
+		if (!std::strcmp(argv[1], "/ip"))
+			arp.entry_point(argv[2]);
+		if (!std::strcmp(argv[1], "/mac")) //cc-1a-fa-87-c1-12
+		{
+			std::string res = "arp -a | find /i ";
+			res += "\"";
+			res += argv[2];
+			res += "\"";
+			std::cout << exec(res.c_str());
+		}
 	}
+	catch (std::exception e)
+	{
+		std::cout << e.what();
+	}
+	
 	return 0;
 }

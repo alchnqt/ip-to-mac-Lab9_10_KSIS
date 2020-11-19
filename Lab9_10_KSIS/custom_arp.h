@@ -7,12 +7,13 @@
 #include <stdio.h>
 #include <conio.h>
 #include <Ws2tcpip.h>
-
+#include <iomanip>
 #pragma comment(lib, "WS2_32.lib")
 #pragma comment(lib, "IPHlpApi.lib")
 
 #include <iostream>
 
+#pragma warning(disable:4996)
 class custom_arp
 {
 	WSADATA wsaData;
@@ -39,12 +40,11 @@ public:
 			}
 		}
 	}
-	int entry_point(const char* ip_address) noexcept
+	int entry_point(char* ip_address) noexcept
 	{
 		using std::cout;
 		using std::cin;
 		unsigned char mac[6];
-		struct in_addr srcip = { 0 };
 		struct sockaddr_in sa;
 		WSADATA firstsock;
 		if (WSAStartup(MAKEWORD(2, 2), &firstsock) != 0)
@@ -53,15 +53,28 @@ public:
 			cout << WSAGetLastError();
 			return -1;
 		}
+		char MacAddr[6];
+		ULONG size = sizeof(MacAddr);
+		IPAddr srcip = 0;
+		SendARP(inet_addr(ip_address), srcip, MacAddr, &size);
 		//преобразование IP адреса другим способом
 		//srcip.s_addr = inet_addr(ip_address);
-		inet_pton(AF_INET, ip_address, &(sa.sin_addr));
+		//inet_pton(AF_INET, ip_address, &(sa.sin_addr));
 		//Получение MAC по IP
-		GetMacAddress(mac, sa.sin_addr);
+		//GetMacAddress(mac, sa.sin_addr);
 		//GetMacAddress(mac, srcip);
-		printf("MAC адрес : %.2X-%.2X-%.2X-%.2X-%.2X-% .2X" ,
+		/*printf("MAC адрес : %.2X-%.2X-%.2X-%.2X-%.2X-% .2X" ,
 			mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-		printf("\n");
+		printf("\n");*/
+		std::cout << "MAC address : ";
+		int i = 0;
+		for (unsigned char c : MacAddr)
+		{
+			i++;
+			std::cout << std::setw(2) << std::setprecision(2) << std::setfill('0') << std::hex << (unsigned)c;
+			if(i != 6)
+				std::cout << "-";	
+		}
 			return 1;
 	}
 };
