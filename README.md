@@ -1,2 +1,2 @@
-# Lab9_10_KSIS
-ip to mac and vice versa
+# ip to mac and vice versa
+using winsock
